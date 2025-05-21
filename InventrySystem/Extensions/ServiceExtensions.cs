@@ -32,6 +32,11 @@ namespace InventrySystem.Extensions
             services.AddDbContext<RepositoryContext>(opts =>
                 opts.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b => b.MigrationsAssembly("InventrySystem")));
 
+        public static void ConfigurePgSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+            services.AddDbContext<RepositoryContext>(opts =>
+                opts.UseNpgsql(configuration.GetConnectionString("dbConnection"), b => b.MigrationsAssembly("InventrySystem"))
+            );
+
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
            services.AddScoped<IRepositoryManager, RepositoryManager>();
 

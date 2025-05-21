@@ -2,6 +2,8 @@
 using Entities.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using Repository.Configuration;
 
 namespace Repository
@@ -81,5 +83,27 @@ namespace Repository
         public DbSet<MaintenanceSchedule> MaintenanceSchedules { get; set; }
         public DbSet<ServiceHistory> ServiceHistories { get; set; }
         public DbSet<Report> Reports { get; set; }
+    }
+
+    // public class RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
+    // {
+    //     public RepositoryContext CreateDbContext(string[] args)
+    //     {
+    //         var configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+    //         .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json")).Build();
+    //     }
+    // }
+
+    public class  RepositoryContextFactory : IDesignTimeDbContextFactory<RepositoryContext>
+    {
+        public RepositoryContext CreateDbContext(string[] args)
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile(Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json")).Build();
+            var builder = new DbContextOptionsBuilder<RepositoryContext>();
+            builder.UseNpgsql(configuration.GetConnectionString("DbConnection"));
+            return new RepositoryContext(builder.Options);
+        }
     }
 }
