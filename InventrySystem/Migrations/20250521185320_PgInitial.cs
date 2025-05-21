@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventrySystem.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialData : Migration
+    public partial class PgInitial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +18,11 @@ namespace InventrySystem.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,23 +33,23 @@ namespace InventrySystem.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,8 +60,8 @@ namespace InventrySystem.Migrations
                 name: "Brands",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,8 +72,8 @@ namespace InventrySystem.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,12 +84,12 @@ namespace InventrySystem.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EmployeeNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    FirstName = table.Column<string>(type: "text", nullable: true),
+                    LastName = table.Column<string>(type: "text", nullable: true),
+                    EmployeeNumber = table.Column<string>(type: "text", nullable: true),
+                    Position = table.Column<string>(type: "text", nullable: true),
+                    Email = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -99,9 +100,9 @@ namespace InventrySystem.Migrations
                 name: "Offices",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Location = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,10 +113,10 @@ namespace InventrySystem.Migrations
                 name: "Reports",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GeneratedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    GeneratedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -126,9 +127,9 @@ namespace InventrySystem.Migrations
                 name: "Suppliers",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ContactInfo = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    ContactInfo = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,11 +140,11 @@ namespace InventrySystem.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -160,11 +161,11 @@ namespace InventrySystem.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,10 +182,10 @@ namespace InventrySystem.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,8 +202,8 @@ namespace InventrySystem.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    RoleId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -225,10 +226,10 @@ namespace InventrySystem.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -245,14 +246,14 @@ namespace InventrySystem.Migrations
                 name: "Devices",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BrandId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SupplierId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsFaulty = table.Column<bool>(type: "bit", nullable: false),
-                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    SerialNumber = table.Column<string>(type: "text", nullable: true),
+                    CategoryId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BrandId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SupplierId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsFaulty = table.Column<bool>(type: "boolean", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,13 +282,13 @@ namespace InventrySystem.Migrations
                 name: "DeviceAssignments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    OfficeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    AssignedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DeviceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EmployeeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    OfficeId = table.Column<Guid>(type: "uuid", nullable: true),
+                    AssignedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ReturnedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -316,11 +317,11 @@ namespace InventrySystem.Migrations
                 name: "MaintenanceSchedules",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ScheduledDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DeviceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ScheduledDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -337,11 +338,11 @@ namespace InventrySystem.Migrations
                 name: "ServiceHistories",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DeviceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ServiceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PerformedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DeviceId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ServiceDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    PerformedBy = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -366,7 +367,11 @@ namespace InventrySystem.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "a2bd32c0-d75e-4966-8274-758e273da3fb", 0, "2ea1f06e-4dac-4f46-b643-af163fd55fde", "user@example.com", true, "John", "Doe", false, null, "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAEEnIReNKuUfjZhAJIM6RCa3YuOvnFkgJAlhroO7w7p90k7KQ+xPQ4fP9mGzd3uZlvA==", null, false, "", false, "user@example.com" });
+                values: new object[,]
+                {
+                    { "a2bd32c0-d75e-4966-8274-758e273da3fb", 0, "aa9e3ddf-7d32-4ea1-8dd0-0a51e4ae1f95", "user@example.com", true, "John", "Doe", false, null, "USER@EXAMPLE.COM", "USER@EXAMPLE.COM", "AQAAAAIAAYagAAAAEMNzCDbm92cUHUgBOjdAhiavBi26JHtiFK9Y+GvV97nuVp5UbJDq8u1dfY/Vxl4zHA==", null, false, "", false, "user@example.com" },
+                    { "d7930984-3648-45c8-b33e-7b902e1166b4", 0, "28fbcaf3-1351-4234-8d29-f1c7e0190357", "user2@example.com", true, "John2", "Doe2", false, null, "USER2@EXAMPLE.COM", "USER2@EXAMPLE.COM", "AQAAAAIAAYagAAAAEFZXT3Smqn7eMSqrc+iJVVwjZDBryqcp3vpcQSJGMybtuhlkeCZgMS/LPasySbOK1A==", null, false, "", false, "user2@example.com" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Brands",
@@ -392,6 +397,26 @@ namespace InventrySystem.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "Email", "EmployeeNumber", "FirstName", "LastName", "Position" },
+                values: new object[,]
+                {
+                    { new Guid("057fabeb-23cb-4828-b262-874b958253a6"), "alice.johnson@example.com", "EMP003", "Alice", "Johnson", "HR Coordinator" },
+                    { new Guid("b90f27aa-7d93-4d22-bda0-c81e6f5b2121"), "jane.smith@example.com", "EMP002", "Jane", "Smith", "Project Manager" },
+                    { new Guid("c5ee8a06-f67d-4ab9-8e4f-54d4b9351455"), "john.doe@example.com", "EMP001", "John", "Doe", "Software Engineer" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Offices",
+                columns: new[] { "Id", "Location", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("528803ca-bee7-4b5e-931c-c09ec547a274"), "Building 1, Floor 2", "Office A" },
+                    { new Guid("970afde9-26ba-4df7-9fef-0050e66ec6e6"), "Building 3, Floor 3", "Office C" },
+                    { new Guid("f17c9156-16db-4e0a-834c-8c010d56b722"), "Building 2, Floor 1", "Office B" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "Suppliers",
                 columns: new[] { "Id", "ContactInfo", "Name" },
                 values: new object[,]
@@ -411,18 +436,18 @@ namespace InventrySystem.Migrations
                 columns: new[] { "Id", "BrandId", "CategoryId", "IsAvailable", "IsFaulty", "Name", "SerialNumber", "SupplierId" },
                 values: new object[,]
                 {
-                    { new Guid("0ab89bb9-6680-463c-b3be-ff46d35c61d3"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y1", "SN246810", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
-                    { new Guid("1367c7e1-0b32-41c1-ac42-5810d58c97f4"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y3", "SN112233", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
-                    { new Guid("1b04a8d3-7343-46b2-9103-9c777958ea6b"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X1", "SN123456", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
-                    { new Guid("2629dde7-e150-41c8-985b-51997d106ae6"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y2", "SN567890", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
-                    { new Guid("30c27f26-1984-46f5-86e3-8a8c5e59949a"), new Guid("302a431a-2f54-4768-8a34-b6414f3909df"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M1", "SN789012", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
-                    { new Guid("9fa3f1c4-e077-4858-a061-e3da2ffa7aae"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z1", "SN987654", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
-                    { new Guid("a71dc0c6-f89a-486f-b169-b0b3c985af17"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M3", "SN135790", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
-                    { new Guid("afd3da66-220c-4423-be70-bbe5da5ff9c6"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X2", "SN789012", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
-                    { new Guid("b713d4bb-b4ad-44b7-8bb7-220c047aed3a"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X3", "SN345678", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
-                    { new Guid("c4da5406-4a9b-41da-9989-44d18696bc0c"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z2", "SN456789", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
-                    { new Guid("d551203e-ef54-48ff-8807-c9e2839ebae1"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z3", "SN135790", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
-                    { new Guid("f2e8f4d9-60ed-4de7-a036-8760003214c9"), new Guid("302a431a-2f54-4768-8a34-b6414f3909df"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M2", "SN456789", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") }
+                    { new Guid("0cf54638-2678-4684-9ed0-0937a9fd7578"), new Guid("302a431a-2f54-4768-8a34-b6414f3909df"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M1", "SN789012", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
+                    { new Guid("0f3d6050-d5cf-4d46-b89e-7f90d5213423"), new Guid("302a431a-2f54-4768-8a34-b6414f3909df"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M2", "SN456789", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
+                    { new Guid("16bef877-af10-4f93-af42-0864cea7d394"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y3", "SN112233", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
+                    { new Guid("231dbb8e-da9c-4243-a5f4-d1e170420a92"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z2", "SN456789", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
+                    { new Guid("36e29417-85d2-4a4d-b090-81bfb1ae9742"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X2", "SN789012", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
+                    { new Guid("3960e987-01f3-4bc8-82bf-4c28056022e8"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y1", "SN246810", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
+                    { new Guid("4d404b82-55c4-4e68-9cb0-98e3fbcfc842"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"), true, false, "Mobile Phone M3", "SN135790", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
+                    { new Guid("8ce1291e-2078-4e8b-aa62-014e9f630d2e"), new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"), new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"), true, false, "Desktop Y2", "SN567890", new Guid("ec98376a-b287-458c-96b8-18aef57eb9f0") },
+                    { new Guid("8e518623-6270-48f2-bdf4-32c9f736e81a"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X3", "SN345678", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
+                    { new Guid("f7698c98-21c1-4ec1-9e9a-9d63796826dc"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z3", "SN135790", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") },
+                    { new Guid("f94b2674-4c79-4a0b-b4b0-1d64d73d7b11"), new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"), new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"), true, false, "Laptop X1", "SN123456", new Guid("029e2d94-fd9d-41bd-9b4a-58b2f738c662") },
+                    { new Guid("fc4e276a-17cf-4604-8f63-9f6de9c1f77b"), new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"), new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"), true, false, "Printer Z1", "SN987654", new Guid("3fff2d50-83f4-4128-a5dd-bb74f0d754e8") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -434,8 +459,7 @@ namespace InventrySystem.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -461,8 +485,7 @@ namespace InventrySystem.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceAssignments_DeviceId",

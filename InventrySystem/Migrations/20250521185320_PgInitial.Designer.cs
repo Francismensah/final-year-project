@@ -2,9 +2,9 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
 
 #nullable disable
@@ -12,8 +12,8 @@ using Repository;
 namespace InventrySystem.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240724113750_InitialData1")]
-    partial class InitialData1
+    [Migration("20250521185320_PgInitial")]
+    partial class PgInitial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,67 +21,67 @@ namespace InventrySystem.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Entities.Identity.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
@@ -90,8 +90,7 @@ namespace InventrySystem.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -100,7 +99,7 @@ namespace InventrySystem.Migrations
                         {
                             Id = "a2bd32c0-d75e-4966-8274-758e273da3fb",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "aadea458-77e8-4a1d-b158-85bb1da80d71",
+                            ConcurrencyStamp = "aa9e3ddf-7d32-4ea1-8dd0-0a51e4ae1f95",
                             Email = "user@example.com",
                             EmailConfirmed = true,
                             FirstName = "John",
@@ -108,40 +107,57 @@ namespace InventrySystem.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@EXAMPLE.COM",
                             NormalizedUserName = "USER@EXAMPLE.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPJVW/qjZZqjKrbSEDEQ3D9qvD+HCiPTlVu7PfZpJ6JUrQ8KHmAyNZuNZ5bdkIGNfQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMNzCDbm92cUHUgBOjdAhiavBi26JHtiFK9Y+GvV97nuVp5UbJDq8u1dfY/Vxl4zHA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "user@example.com"
+                        },
+                        new
+                        {
+                            Id = "d7930984-3648-45c8-b33e-7b902e1166b4",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "28fbcaf3-1351-4234-8d29-f1c7e0190357",
+                            Email = "user2@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "John2",
+                            LastName = "Doe2",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "USER2@EXAMPLE.COM",
+                            NormalizedUserName = "USER2@EXAMPLE.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFZXT3Smqn7eMSqrc+iJVVwjZDBryqcp3vpcQSJGMybtuhlkeCZgMS/LPasySbOK1A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "user2@example.com"
                         });
                 });
 
             modelBuilder.Entity("Entities.Identity.UserRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
 
@@ -166,10 +182,10 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -207,10 +223,10 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -243,28 +259,28 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("BrandId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsFaulty")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SerialNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("SupplierId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -279,7 +295,7 @@ namespace InventrySystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b2719efd-4bea-4cc2-84c3-4400e838a545"),
+                            Id = new Guid("f94b2674-4c79-4a0b-b4b0-1d64d73d7b11"),
                             BrandId = new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"),
                             CategoryId = new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"),
                             IsAvailable = true,
@@ -290,7 +306,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("24def009-1f00-484d-8da5-246e1dcd7a24"),
+                            Id = new Guid("36e29417-85d2-4a4d-b090-81bfb1ae9742"),
                             BrandId = new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"),
                             CategoryId = new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"),
                             IsAvailable = true,
@@ -301,7 +317,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4ea5279f-5d0a-4191-b341-84639f62fd45"),
+                            Id = new Guid("8e518623-6270-48f2-bdf4-32c9f736e81a"),
                             BrandId = new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"),
                             CategoryId = new Guid("9aa0f4cd-de28-4d3c-b38b-586819845ba3"),
                             IsAvailable = true,
@@ -312,7 +328,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("06d92bfd-6bd8-44be-8246-ab6df218da24"),
+                            Id = new Guid("3960e987-01f3-4bc8-82bf-4c28056022e8"),
                             BrandId = new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"),
                             CategoryId = new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"),
                             IsAvailable = true,
@@ -323,7 +339,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c655db0d-7a7c-4d3c-85bd-87e6b89050c3"),
+                            Id = new Guid("8ce1291e-2078-4e8b-aa62-014e9f630d2e"),
                             BrandId = new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"),
                             CategoryId = new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"),
                             IsAvailable = true,
@@ -334,7 +350,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7766401a-0891-4409-a4fa-5682b0dcad37"),
+                            Id = new Guid("16bef877-af10-4f93-af42-0864cea7d394"),
                             BrandId = new Guid("89491906-e1e3-4d90-b8da-7363d1d92518"),
                             CategoryId = new Guid("afc1bef3-e71d-4bd8-9bb2-c838c40e9ee0"),
                             IsAvailable = true,
@@ -345,7 +361,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c8357b30-923c-4bc4-9413-8e51a9216c28"),
+                            Id = new Guid("fc4e276a-17cf-4604-8f63-9f6de9c1f77b"),
                             BrandId = new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"),
                             CategoryId = new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"),
                             IsAvailable = true,
@@ -356,7 +372,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b714a553-b91f-4acc-b791-d510fb4b327b"),
+                            Id = new Guid("231dbb8e-da9c-4243-a5f4-d1e170420a92"),
                             BrandId = new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"),
                             CategoryId = new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"),
                             IsAvailable = true,
@@ -367,7 +383,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("eba952db-addc-414b-bb9d-a8503dcdb3f3"),
+                            Id = new Guid("f7698c98-21c1-4ec1-9e9a-9d63796826dc"),
                             BrandId = new Guid("ffb0451c-5f0b-457d-a513-e308e9b87326"),
                             CategoryId = new Guid("42a2b158-1964-47da-8c4e-31a249aa1b3a"),
                             IsAvailable = true,
@@ -378,7 +394,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0e4a97e9-0d0d-4ef5-a418-2ec4d50fa7fe"),
+                            Id = new Guid("0cf54638-2678-4684-9ed0-0937a9fd7578"),
                             BrandId = new Guid("302a431a-2f54-4768-8a34-b6414f3909df"),
                             CategoryId = new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"),
                             IsAvailable = true,
@@ -389,7 +405,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3ad0c4ff-b918-4cea-a592-6d1d13382509"),
+                            Id = new Guid("0f3d6050-d5cf-4d46-b89e-7f90d5213423"),
                             BrandId = new Guid("302a431a-2f54-4768-8a34-b6414f3909df"),
                             CategoryId = new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"),
                             IsAvailable = true,
@@ -400,7 +416,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cc73f4c5-2fd8-40fc-bb78-e73cb9c41121"),
+                            Id = new Guid("4d404b82-55c4-4e68-9cb0-98e3fbcfc842"),
                             BrandId = new Guid("f10323d3-da72-44e7-ae7d-0379da31b329"),
                             CategoryId = new Guid("f8f32941-7bad-471e-9d15-07b0ed660516"),
                             IsAvailable = true,
@@ -415,25 +431,25 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("AssignedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("OfficeId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("ReturnedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -451,22 +467,22 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("EmployeeNumber")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Position")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -475,7 +491,7 @@ namespace InventrySystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7f8ba2f9-3462-4d1e-9dbc-eacab5de0bef"),
+                            Id = new Guid("c5ee8a06-f67d-4ab9-8e4f-54d4b9351455"),
                             Email = "john.doe@example.com",
                             EmployeeNumber = "EMP001",
                             FirstName = "John",
@@ -484,7 +500,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("07d7fa03-5520-40cc-8c79-36a19801c0fe"),
+                            Id = new Guid("b90f27aa-7d93-4d22-bda0-c81e6f5b2121"),
                             Email = "jane.smith@example.com",
                             EmployeeNumber = "EMP002",
                             FirstName = "Jane",
@@ -493,7 +509,7 @@ namespace InventrySystem.Migrations
                         },
                         new
                         {
-                            Id = new Guid("41d13230-f49c-46ad-bfba-de7b87bc0551"),
+                            Id = new Guid("057fabeb-23cb-4828-b262-874b958253a6"),
                             Email = "alice.johnson@example.com",
                             EmployeeNumber = "EMP003",
                             FirstName = "Alice",
@@ -506,19 +522,19 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsCompleted")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("ScheduledDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -531,13 +547,13 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -546,19 +562,19 @@ namespace InventrySystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1fe78363-8333-4168-8dd7-532dcb58de42"),
+                            Id = new Guid("528803ca-bee7-4b5e-931c-c09ec547a274"),
                             Location = "Building 1, Floor 2",
                             Name = "Office A"
                         },
                         new
                         {
-                            Id = new Guid("516d490a-073d-4c1d-a375-78be4378128d"),
+                            Id = new Guid("f17c9156-16db-4e0a-834c-8c010d56b722"),
                             Location = "Building 2, Floor 1",
                             Name = "Office B"
                         },
                         new
                         {
-                            Id = new Guid("36221a12-b058-49d7-9192-22f1dd012385"),
+                            Id = new Guid("970afde9-26ba-4df7-9fef-0050e66ec6e6"),
                             Location = "Building 3, Floor 3",
                             Name = "Office C"
                         });
@@ -568,16 +584,16 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("GeneratedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -588,19 +604,19 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("DeviceId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("PerformedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("ServiceDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -613,13 +629,13 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ContactInfo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -650,19 +666,19 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -675,19 +691,19 @@ namespace InventrySystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -699,17 +715,17 @@ namespace InventrySystem.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -721,10 +737,10 @@ namespace InventrySystem.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -743,16 +759,16 @@ namespace InventrySystem.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 

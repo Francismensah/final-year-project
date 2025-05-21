@@ -14,7 +14,7 @@ namespace InventrySystem.ContextFactory
                 .Build();
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+                .UseNpgsql(configuration.GetConnectionString("dbConnection"),
                 b => b.MigrationsAssembly("InventrySystem"));
 
             return new RepositoryContext(builder.Options);
